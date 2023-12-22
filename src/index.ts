@@ -1,14 +1,35 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
+import { program } from 'commander';
+import { readFile } from 'fs';
 
-const program = new Command();
+program.parse();
 
-program
-.argument('<string>', 'String to log')
-.action((message: string) => {
-  console.log(`Hello ${message}`);
-})
-.description('Say Hello!');
+const fileName1 = program.args[0];
+const fileName2 = program.args[1];
 
-program.parse(process.argv);
+let fileContent: any;
+
+// Todo: Fix all types
+if (fileName1) {
+	readFile(fileName1, 'utf8', (err: any, data: any) => {
+		if (err) {
+			console.log(err);
+		}
+
+		fileContent += data;
+	});
+}
+
+if (fileName2) {
+	readFile(fileName2, 'utf8', (err: any, data: any) => {
+		if (err) {
+			console.log(err);
+		}
+
+		fileContent += data
+
+		console.log(fileContent);
+	});
+}
+
